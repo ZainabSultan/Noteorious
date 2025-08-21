@@ -1,5 +1,6 @@
 name: Docker Image CI
-
+env:
+  IMAGE_TAG: my-image-name-$(date +%s)
 on:
   push:
     branches: [ "main" ]
@@ -15,4 +16,5 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+      run: docker build . --file Dockerfile --tag $IMAGE_TAG && docker run $IMAGE_TAG pytest
+
